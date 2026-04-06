@@ -1,0 +1,99 @@
+.main-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-logo .logo-about {
+    margin-top: -16px;
+}
+
+.main-logo .main-text {
+    font-weight: 800;
+    font-size: 40px;
+    color: rgba(58, 61, 64, 1);
+    margin-top: -40px;
+}
+.main-logo .vector {
+    margin-left: 250px;
+    margin-top: -4px;
+}
+
+/*Блок о нас*/
+
+.who-block {
+    height: 293px;
+    width: 551px;
+    background-color: rgba(58, 61, 64, 1);
+    color: rgba(126, 176, 239, 1);
+    border-radius: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.who-block .small-text {
+    color: aliceblue;
+    font-weight: 100;
+    text-align: justify;
+    margin: 40px;
+    font-size: 20px;
+}
+
+.bottom-row .small-text {
+    flex: 1;
+    text-align: center;
+    font-size: 19px;
+    margin-top: 80px;
+}
+
+.who-block .header {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 220px;
+    position: absolute;
+}
+
+.about-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 83px;
+    margin-top: 40px;
+}
+
+.about-block .bottom-row {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+}
+
+/* БЛОК ПАРТНЁРОВ */
+
+.parthners-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 25px;
+
+    font-size: 40px;
+    font-weight: 800;
+
+    margin-bottom: 125px;
+}
+.part-header-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 125px;
+}
+
+.part-header {
+    color: rgba(58, 61, 64, 1);
+}
+.postscript {
+    color: rgba(126, 176, 239, 1);
+}

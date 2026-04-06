@@ -1,0 +1,107 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\MoonShine\Resources;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Post;
+
+use MoonShine\Resources\ModelResource;
+use MoonShine\Decorations\Block;
+use MoonShine\Fields\ID;
+use MoonShine\Fields\Image;
+use MoonShine\Fields\Text;
+use MoonShine\Fields\Url;
+use MoonShine\Fields\Textarea;
+use MoonShine\Fields\Field;
+use MoonShine\Components\MoonShineComponent;
+
+/**
+ * @extends ModelResource<Post>
+ */
+class PostResource extends ModelResource
+{
+    protected string $model = Post::class;
+
+    protected string $title = 'Посты';
+
+    /**
+     * @return list<MoonShineComponent|Field>
+     */
+    public function fields(): array
+    {
+        return [
+            Block::make([
+                ID::make()->sortable(),
+                Text::make('Заголовок', 'title')
+                    ->required(),
+                Image::make('Картинка (файл)', 'image')
+                    ->setName('image_file')
+                    ->disk('public')
+                    ->dir('posts')
+                    ->allowedExtensions([
+                        'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg',
+                        'avif', 'tif', 'tiff', 'ico', 'heic', 'heif',
+                    ])
+                    ->changeFill(static function (mixed $data): mixed {
+                        $value = (string) data_get($data, 'image', '');
+
+                        return str_starts_with($value, 'http') ? null : $value;
+                    })
+                    ->onApply(static function (mixed $item, mixed $requestValue) {
+                        if (! $requestValue instanceof \Illuminate\Http\UploadedFile) {
+                            return $item;
+                        }
+
+                        $path = $requestValue->store('posts', 'public');
+
+                        data_set($item, 'image', $path);
+
+                        return $item;
+                    })
+                    ->nullable()
+                    ->hint('Заполните либо файл, либо ссылку ниже.'),
+                Url::make('Картинка (ссылка)', 'image')
+                    ->setName('image_url')
+                    ->changeFill(static function (mixed $data): mixed {
+                        $value = (string) data_get($data, 'image', '');
+
+                        return str_starts_with($value, 'http') ? $value : null;
+                    })
+                    ->canApply(static fn (): bool => ! request()->hasFile('image_file'))
+                    ->nullable()
+                    ->hint('Заполните либо ссылку, либо файл выше.'),
+                Textarea::make('Текст', 'text')
+                    ->required(),
+            ]),
+        ];
+    }
+
+    /**
+     * @param Post $item
+     *
+     * @return array<string, string[]|string>
+     * @see https://laravel.com/docs/validation#available-validation-rules
+     */
+    public function rules(Model $item): array
+    {
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'image_file' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,gif,webp,bmp,svg,avif,tif,tiff,ico,heic,heif',
+                'max:5120',
+                'required_without:image_url',
+            ],
+            'image_url' => [
+                'nullable',
+                'url',
+                'max:2048',
+                'required_without:image_file',
+            ],
+            'text' => ['required', 'string', 'max:5000'],
+        ];
+    }
+}
