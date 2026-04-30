@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    @vite(['resources/css/style.css'])
+    @vite(['resources/css/style.css', 'resources/js/preloader.js'])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -32,6 +32,25 @@
                     href="https://t.me/Khodakov_FashionHouse" class="text">СВЯЗАТЬСЯ С
                     НАМИ</a></button></div>
     </nav>
+
+
+
+    <div id="preloader-1" class="preloader-1">
+        <svg>
+            <g>
+                <path d="M 50,100 A 1,1 0 0 1 50,0" />
+            </g>
+            <g>
+                <path d="M 50,75 A 1,1 0 0 0 50,-25" />
+            </g>
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffffffc7;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#7eb0ef;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
     @yield('content')
     <div class="faq">
         <div class="faq-block">

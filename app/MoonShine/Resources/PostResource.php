@@ -34,46 +34,36 @@ class PostResource extends ModelResource
         return [
             Block::make([
                 ID::make()->sortable(),
-                Text::make('Заголовок', 'title')
-                    ->required(),
+                Text::make('Заголовок', 'title')->required(),
+
+
                 Image::make('Картинка (файл)', 'image')
                     ->setName('image_file')
                     ->disk('public')
                     ->dir('posts')
-                    ->allowedExtensions([
-                        'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg',
-                        'avif', 'tif', 'tiff', 'ico', 'heic', 'heif',
-                    ])
-                    ->changeFill(static function (mixed $data): mixed {
-                        $value = (string) data_get($data, 'image', '');
-
-                        return str_starts_with($value, 'http') ? null : $value;
-                    })
-                    ->onApply(static function (mixed $item, mixed $requestValue) {
-                        if (! $requestValue instanceof \Illuminate\Http\UploadedFile) {
-                            return $item;
+                    ->changeFill(fn($data) => str_starts_with((string) $data->image, 'http') ? null : $data->image)
+                    ->onApply(function (Model $item, $value) {
+                        if (request()->hasFile('image_file')) {
+                            $item->image = request()->file('image_file')->store('posts', 'public');
                         }
-
-                        $path = $requestValue->store('posts', 'public');
-
-                        data_set($item, 'image', $path);
-
                         return $item;
                     })
-                    ->nullable()
-                    ->hint('Заполните либо файл, либо ссылку ниже.'),
+                    ->nullable(),
+
+
                 Url::make('Картинка (ссылка)', 'image')
                     ->setName('image_url')
-                    ->changeFill(static function (mixed $data): mixed {
-                        $value = (string) data_get($data, 'image', '');
-
-                        return str_starts_with($value, 'http') ? $value : null;
+                    ->changeFill(fn($data) => str_starts_with((string) $data->image, 'http') ? $data->image : null)
+                    // Сохраняем URL только если файл не был загружен
+                    ->onApply(function (Model $item, $value) {
+                        if (request()->hasFile('image_file')) {
+                            $item->image = request()->file('image_file')->store('posts', 'public');
+                        }
+                        return $item;
                     })
-                    ->canApply(static fn (): bool => ! request()->hasFile('image_file'))
-                    ->nullable()
-                    ->hint('Заполните либо ссылку, либо файл выше.'),
-                Textarea::make('Текст', 'text')
-                    ->required(),
+                    ->nullable(),
+
+                Textarea::make('Текст', 'text')->required(),
             ]),
         ];
     }
