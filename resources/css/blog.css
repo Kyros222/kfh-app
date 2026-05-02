@@ -125,6 +125,26 @@
     border-top: 1px solid rgba(126, 176, 239, 0.2);
 }
 
+.post-card .post-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    padding-bottom: 6px;
+}
+
+.post-card .post-ellipsis {
+    display: block;
+    padding: 0 20px 22px;
+    text-align: right;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    color: rgba(126, 176, 239, 1);
+    line-height: 1;
+}
+
 .posts-section {
     margin-bottom: 56px;
 }

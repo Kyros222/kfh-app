@@ -29,4 +29,9 @@ class PostController extends Controller
             ->route('blog')
             ->with('success', 'Пост успешно добавлен.');
     }
+
+    public function post(Post $post): View
+    {
+        return view("post", compact('post'));
+    }
 }

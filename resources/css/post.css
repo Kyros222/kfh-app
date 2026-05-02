@@ -1,0 +1,64 @@
+/* Центрирование контента */
+.post-container {
+    max-width: 800px; /* Оптимальная ширина для чтения текста */
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: "Inter", sans-serif; /* Рекомендую подключить этот шрифт */
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* Мета-данные (дата) */
+.post-meta {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* Заголовок */
+.post-title {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: -1px;
+}
+
+/* Обложка */
+.post-image-wrapper {
+    margin: 0 -20px 40px -20px; /* Изображение чуть шире текста для динамики */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.post-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Текст статьи */
+.post-content {
+    font-size: 18px;
+    color: #333;
+    white-space: pre-line;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 60px;
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid #000;
+    transition: opacity 0.2s;
+}
+
+.back-link:hover {
+    opacity: 0.6;
+}

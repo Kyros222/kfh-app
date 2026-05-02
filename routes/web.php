@@ -21,3 +21,5 @@ Route::get('/privacy', function () {
 
 Route::get('/blog', [PostController::class, 'index'])->name('blog');
 Route::post('/blog', [PostController::class, 'store'])->name('blog.store');
+
+Route::get('/post/{post:slug}', [PostController::class, 'post'])->name('post');

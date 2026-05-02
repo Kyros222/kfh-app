@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="img/favicon32.png" type="image/x-png">
+    <link rel="icon" href="{{ asset('img/favicon32.png') }}" type="image/x-png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -18,7 +18,7 @@
 
 <body>
     <nav class="nav">
-        <div class="logo"><a href="/"><img src="img/loho.png" alt=""></a>
+        <div class="logo"><a href="/"><img src="{{ asset('img/loho.png') }}" alt=""></a>
         </div>
         <div class="links">
 
@@ -28,7 +28,7 @@
             <a class="{{ request()->is('blog') ? 'active' : '' }}" href="/blog">Блог</a>
         </div>
         <div class="number">+7-910-158-83-42</div>
-        <div class="contact-btn"><img src="img/telega.png" alt=""><button class="btn"><a
+        <div class="contact-btn"><img src="{{ asset('img/telega.png') }}" alt=""><button class="btn"><a
                     href="https://t.me/Khodakov_FashionHouse" class="text">СВЯЗАТЬСЯ С
                     НАМИ</a></button></div>
     </nav>
@@ -106,7 +106,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="/" class="footer-logo-link">
-                        <img src="img/loho.png" alt="Khodakov Fashion House" class="footer-logo">
+                        <img src="{{ asset('img/loho.png') }}" alt="Khodakov Fashion House" class="footer-logo">
                     </a>
                 </div>
 

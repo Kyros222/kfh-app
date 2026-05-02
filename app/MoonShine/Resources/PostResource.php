@@ -12,7 +12,6 @@ use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Text;
-use MoonShine\Fields\Url;
 use MoonShine\Fields\Textarea;
 use MoonShine\Fields\Field;
 use MoonShine\Components\MoonShineComponent;
@@ -38,29 +37,13 @@ class PostResource extends ModelResource
 
 
                 Image::make('Картинка (файл)', 'image')
-                    ->setName('image_file')
                     ->disk('public')
                     ->dir('posts')
-                    ->changeFill(fn($data) => str_starts_with((string) $data->image, 'http') ? null : $data->image)
-                    ->onApply(function (Model $item, $value) {
-                        if (request()->hasFile('image_file')) {
-                            $item->image = request()->file('image_file')->store('posts', 'public');
-                        }
-                        return $item;
-                    })
-                    ->nullable(),
-
-
-                Url::make('Картинка (ссылка)', 'image')
-                    ->setName('image_url')
-                    ->changeFill(fn($data) => str_starts_with((string) $data->image, 'http') ? $data->image : null)
-                    // Сохраняем URL только если файл не был загружен
-                    ->onApply(function (Model $item, $value) {
-                        if (request()->hasFile('image_file')) {
-                            $item->image = request()->file('image_file')->store('posts', 'public');
-                        }
-                        return $item;
-                    })
+                    ->changeFill(
+                        fn ($data) => blank($data->image) || str_starts_with((string) $data->image, 'http')
+                            ? null
+                            : (string) $data->image
+                    )
                     ->nullable(),
 
                 Textarea::make('Текст', 'text')->required(),
@@ -78,19 +61,6 @@ class PostResource extends ModelResource
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'image_file' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,gif,webp,bmp,svg,avif,tif,tiff,ico,heic,heif',
-                'max:5120',
-                'required_without:image_url',
-            ],
-            'image_url' => [
-                'nullable',
-                'url',
-                'max:2048',
-                'required_without:image_file',
-            ],
             'text' => ['required', 'string', 'max:5000'],
         ];
     }
