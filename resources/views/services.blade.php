@@ -1,6 +1,7 @@
 @vite(['resources/css/services.css'])
 @extends('layouts.main')
 @section('content')
+    <title>Услуги</title>
     <section class="cont-main-block">
         <div class="main-header">
             <img src="img/logo_about.png" alt="">
@@ -62,12 +63,12 @@
     </section>
     <section class="price-block">
         <div class="price-card">
-            <h2>РАЗРАБОТКА СО СПЕЦИАЛИСТОМ - от 500 руб</h2>
-            <h2>НАНЕСЕНИЕ ПРИНТА - от 300 руб</h2>
+            <h2>РАЗРАБОТКА СО СПЕЦИАЛИСТОМ - от 4500 руб</h2>
+            <h2>НАНЕСЕНИЕ ПРИНТА - от 4300 руб</h2>
             <h2>ОПТОВЫЕ ЗАКАЗЫ - ДОГОВОРНАЯ ЦЕНА</h2>
             <h2>ПОДПИСЬ ОДЕЖДЫ - 300 руб</h2>
             <h2>РАЗРАБОТКА ДИЗАЙНА - от 300 руб</h2>
-            <h2>ПАРНЫЕ ВЫШИВКИ - от 900 руб</h2>
+            <h2>ПАРНЫЕ ВЫШИВКИ - от 7000 руб</h2>
 
             <hr>
 

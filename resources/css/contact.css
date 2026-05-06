@@ -110,3 +110,52 @@
     width: 48px;
     height: 56px;
 }
+
+@media (max-width: 1024px) {
+    .text-up-map {
+        margin-left: 0;
+        font-size: 30px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ymap {
+        flex-direction: column;
+        gap: 22px;
+        margin-bottom: 90px;
+        padding: 0 14px;
+    }
+
+    .ymap .contact-info {
+        font-size: 22px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .cont-main-block {
+        font-size: 28px;
+        padding: 0 12px;
+    }
+
+    .cont-main-block .header {
+        margin-top: -20px;
+        margin-bottom: 44px;
+    }
+
+    .text-up-map {
+        font-size: 24px;
+    }
+
+    .text-up-map .second-text {
+        margin-left: 0;
+    }
+
+    .ymap .contact-info {
+        font-size: 18px;
+    }
+
+    .ymap .contact-info .tg {
+        justify-content: center;
+    }
+}

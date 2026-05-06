@@ -23,6 +23,8 @@ services:
       SESSION_DRIVER: database
       CACHE_STORE: database
       QUEUE_CONNECTION: database
+      FILESYSTEM_DISK: public
+      LOG_CHANNEL: stderr
 
       # Set to "true" only when you want to auto-run migrations on boot.
       RUN_MIGRATIONS: ${RUN_MIGRATIONS:-true}

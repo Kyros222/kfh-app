@@ -97,3 +97,56 @@
 .postscript {
     color: rgba(126, 176, 239, 1);
 }
+
+@media (max-width: 1024px) {
+    .who-block {
+        width: min(100%, 680px);
+        height: auto;
+        min-height: 260px;
+    }
+
+    .who-block .header {
+        position: static;
+        margin-bottom: 14px;
+    }
+
+    .who-block .small-text {
+        margin: 22px;
+    }
+
+    .about-block .bottom-row {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-logo .main-text {
+        margin-top: -20px;
+        font-size: 30px;
+    }
+
+    .main-logo .vector {
+        margin-left: 0;
+    }
+
+    .who-block {
+        border-radius: 24px;
+    }
+
+    .who-block .small-text {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .parthners-block {
+        font-size: 28px;
+        margin-bottom: 70px;
+        padding: 0 12px;
+    }
+
+    .part-header-block {
+        margin-bottom: 48px;
+    }
+}

@@ -6,6 +6,7 @@
 
 @section('content')
     @vite(['resources/css/contact.css', 'resources/js/contact.js'])
+    <title>Контакты</title>
     <section class="cont-main-block">
         <div class="main-header">
             <img src="img/logo_about.png" alt="">

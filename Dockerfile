@@ -15,6 +15,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install \
   --no-dev \
+  --no-scripts \
   --no-interaction \
   --no-progress \
   --prefer-dist \
@@ -28,17 +29,29 @@ RUN apk add --no-cache \
     ca-certificates \
     curl \
     icu-libs \
+    libjpeg-turbo \
+    libpng \
+    freetype \
+    libzip \
     nginx \
     supervisor \
     tzdata \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     icu-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    freetype-dev \
+    libzip-dev \
     oniguruma-dev \
+  && docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j"$(nproc)" \
     pdo_mysql \
     intl \
     mbstring \
+    gd \
+    exif \
+    zip \
     opcache \
   && apk del .build-deps
 

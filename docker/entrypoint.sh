@@ -3,9 +3,19 @@ set -euo pipefail
 
 cd /var/www/html
 
+if [[ ! -f .env && -f .env.example ]]; then
+  cp .env.example .env
+fi
+
 mkdir -p storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache || true
 chmod -R ug+rwX storage bootstrap/cache || true
+
+if [[ -z "${APP_KEY:-}" ]]; then
+  php artisan key:generate --force || true
+fi
+
+php artisan storage:link || true
 
 if [[ "${APP_ENV:-}" == "production" ]]; then
   php artisan config:cache || true

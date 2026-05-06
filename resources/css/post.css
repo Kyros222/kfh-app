@@ -62,3 +62,28 @@
 .back-link:hover {
     opacity: 0.6;
 }
+
+@media (max-width: 768px) {
+    .post-container {
+        margin: 24px auto;
+        padding: 0 14px;
+    }
+
+    .post-title {
+        font-size: 32px;
+        margin-bottom: 24px;
+    }
+
+    .post-content {
+        font-size: 16px;
+    }
+
+    .post-image-wrapper {
+        margin: 0 -14px 24px -14px;
+    }
+
+    .back-link {
+        margin-top: 36px;
+        font-size: 13px;
+    }
+}

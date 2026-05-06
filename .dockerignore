@@ -21,4 +21,3 @@ tests
 phpunit.xml
 
 docker-compose*.yml
-docker/
