@@ -44,4 +44,87 @@
 
 
     </section>
+
+    <section class="feedback-section">
+        <div class="feedback-container">
+            <div class="feedback-header">
+                <div class="feedback-title">СДЕЛАТЬ ЗАКАЗ</div>
+                <div class="feedback-subtitle">Мы свяжемся с вами в ближайшее время</div>
+            </div>
+
+            @if(session('success'))
+                <div class="feedback-success" id="feedback-success">
+                    <div class="feedback-success-icon">✓</div>
+                    <div class="feedback-success-text">{{ session('success') }}</div>
+                </div>
+            @endif
+
+            <form action="{{ route('contact.store') }}" method="POST" class="feedback-form" id="contact-form">
+                @csrf
+
+                <div class="form-group">
+                    <label for="contact-name" class="form-label">Ваше имя</label>
+                    <input
+                        type="text"
+                        id="contact-name"
+                        name="name"
+                        class="form-input @error('name') form-input--error @enderror"
+                        placeholder="Иван Петров"
+                        value="{{ old('name') }}"
+                        required
+                    >
+                    @error('name')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-contact" class="form-label">Телефон или e-mail</label>
+                    <input
+                        type="text"
+                        id="contact-contact"
+                        name="contact"
+                        class="form-input @error('contact') form-input--error @enderror"
+                        placeholder="+7-920-000-00-00 или email@mail.ru"
+                        value="{{ old('contact') }}"
+                        required
+                    >
+                    @error('contact')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-message" class="form-label">Сообщение</label>
+                    <textarea
+                        id="contact-message"
+                        name="message"
+                        class="form-textarea @error('message') form-input--error @enderror"
+                        placeholder="Опишите ваш заказ или задайте вопрос..."
+                        rows="5"
+                        required
+                    >{{ old('message') }}</textarea>
+                    @error('message')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group form-group--privacy">
+                    <span class="privacy-notice">
+                        Нажимая кнопку, вы соглашаетесь с
+                        <a href="{{ route('privacy') }}" class="privacy-link">Политикой конфиденциальности</a>
+                    </span>
+                </div>
+
+                <button type="submit" class="feedback-submit" id="contact-submit">ОТПРАВИТЬ ЗАКАЗ</button>
+            </form>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.feedback-success') || document.querySelector('.form-error')) {
+                document.querySelector('.feedback-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    </script>
 @endsection

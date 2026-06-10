@@ -25,7 +25,7 @@
     <div class="sec-block">
         <div class="t-sec-block"></div>Не знаешь что выбрать?
         <div class="btns"><a class="consult-btn" href="/contact">ПРОКОНСУЛЬТИРОВАТЬСЯ <br> СО СПЕЦИАЛИСТОМ</a>
-            <a href="https://t.me/khodakov_fashion_house_bot" class="consult-btn">ЗАКАЗАТЬ</a>
+            <a href="{{ route('services') }}#services-order-form" class="consult-btn">ЗАКАЗАТЬ</a>
         </div>
 
 
@@ -92,6 +92,6 @@
 
     <div class="choice-block">
         <div class="t-sec-block"></div>Уже выбрал?
-        <a href="https://t.me/khodakov_fashion_house_bot" class="consult-btn">ЗАКАЗАТЬ</a>
+        <a href="{{ route('services') }}#services-order-form" class="consult-btn">ЗАКАЗАТЬ</a>
     </div>
 @endsection

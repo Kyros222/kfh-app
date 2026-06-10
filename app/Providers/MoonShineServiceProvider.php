@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\MoonShine\Resources\CompletedOrdersResource;
+use App\MoonShine\Resources\OrderResource;
+use App\MoonShine\Resources\OrderInProcess;
+use App\MoonShine\Resources\OrdersInProcessResource;
 use App\MoonShine\Resources\PostResource;
-use MoonShine\Providers\MoonShineApplicationServiceProvider;
-use MoonShine\MoonShine;
-use MoonShine\Menu\MenuGroup;
-use MoonShine\Menu\MenuItem;
-use MoonShine\Resources\MoonShineUserResource;
-use MoonShine\Resources\MoonShineUserRoleResource;
+use App\MoonShine\Resources\RejectedOrdersResource;
+use Closure;
 use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Menu\MenuElement;
+use MoonShine\Menu\MenuGroup;
+use MoonShine\Menu\MenuItem;
 use MoonShine\Pages\Page;
-use Closure;
+use MoonShine\Providers\MoonShineApplicationServiceProvider;
+use MoonShine\Resources\MoonShineUserResource;
+use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
@@ -23,7 +27,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
      */
     protected function resources(): array
     {
-        return [new \App\MoonShine\Resources\PostResource()];
+        return [
+            new PostResource,
+            new OrderResource,
+        ];
     }
 
     /**
@@ -40,15 +47,19 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     protected function menu(): array
     {
         return [
-            MenuItem::make('Посты', new PostResource()),
+            MenuItem::make('Посты', new PostResource),
+            MenuItem::make('Новые заказы', new OrderResource),
+            MenuItem::make('В обработке', new OrdersInProcessResource),
+            MenuItem::make('Завершённые', new CompletedOrdersResource),
+            MenuItem::make('Отклонённые', new RejectedOrdersResource()),
             MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
                 MenuItem::make(
                     static fn() => __('moonshine::ui.resource.admins_title'),
-                    new MoonShineUserResource()
+                    new MoonShineUserResource
                 ),
                 MenuItem::make(
                     static fn() => __('moonshine::ui.resource.role_title'),
-                    new MoonShineUserRoleResource()
+                    new MoonShineUserRoleResource
                 ),
             ]),
 

@@ -16,10 +16,8 @@
                         <a href="{{ route('post', $post) }}">
                             <article class="post-card">
                                 @php
-                                    $imageSrc = str_starts_with($post->image, 'http')
-                                        ? $post->image
-                                        : asset('storage/' . ltrim($post->image, '/'));
-                                @endphp
+    $imageSrc = asset('storage/' . ltrim($post->image, '/'));
+@endphp
                                 <div class="post-meta">
                                     <span class="post-author">KHODAKOV TEAM</span>
                                     <span class="post-date">{{ $post->created_at->format('d.m.Y') }}</span>
