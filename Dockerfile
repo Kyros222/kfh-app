@@ -61,6 +61,8 @@ COPY . .
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
+RUN php artisan package:discover --ansi
+
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/entrypoint.sh /entrypoint.sh
@@ -72,6 +74,7 @@ RUN chmod +x /entrypoint.sh \
 
 ENV APP_ENV=production \
     APP_DEBUG=false \
+    APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= \
     LOG_CHANNEL=stderr
 
 EXPOSE 8080

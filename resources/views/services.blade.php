@@ -1,5 +1,9 @@
-@vite(['resources/css/services.css'])
 @extends('layouts.main')
+
+@push('head-scripts')
+    @vite(['resources/css/services.css'])
+@endpush
+
 @section('content')
     <title>Услуги</title>
     <section class="cont-main-block">

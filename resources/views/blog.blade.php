@@ -1,5 +1,9 @@
-@vite(['resources/css/blog.css'])
 @extends('layouts.main')
+
+@push('head-scripts')
+    @vite(['resources/css/blog.css'])
+@endpush
+
 @section('content')
     <title>Блог</title>
 

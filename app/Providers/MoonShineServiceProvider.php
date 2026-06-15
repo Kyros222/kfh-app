@@ -6,7 +6,6 @@ namespace App\Providers;
 
 use App\MoonShine\Resources\CompletedOrdersResource;
 use App\MoonShine\Resources\OrderResource;
-use App\MoonShine\Resources\OrderInProcess;
 use App\MoonShine\Resources\OrdersInProcessResource;
 use App\MoonShine\Resources\PostResource;
 use App\MoonShine\Resources\RejectedOrdersResource;
@@ -51,20 +50,20 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuItem::make('Новые заказы', new OrderResource),
             MenuItem::make('В обработке', new OrdersInProcessResource),
             MenuItem::make('Завершённые', new CompletedOrdersResource),
-            MenuItem::make('Отклонённые', new RejectedOrdersResource()),
-            MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
+            MenuItem::make('Отклонённые', new RejectedOrdersResource),
+            MenuGroup::make(static fn () => __('moonshine::ui.resource.system'), [
                 MenuItem::make(
-                    static fn() => __('moonshine::ui.resource.admins_title'),
+                    static fn () => __('moonshine::ui.resource.admins_title'),
                     new MoonShineUserResource
                 ),
                 MenuItem::make(
-                    static fn() => __('moonshine::ui.resource.role_title'),
+                    static fn () => __('moonshine::ui.resource.role_title'),
                     new MoonShineUserRoleResource
                 ),
             ]),
 
             MenuItem::make('Documentation', 'https://moonshine-laravel.com/docs')
-                ->badge(fn() => 'Check')
+                ->badge(fn () => 'Check')
                 ->blank(),
         ];
     }

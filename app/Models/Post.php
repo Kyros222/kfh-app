@@ -21,19 +21,20 @@ class Post extends Model
     ];
 
     protected static function booted(): void
-{
-    static::creating(function (Post $post) {
-        $base = Str::slug($post->title, '-', 'ru');
-        $slug = $base;
-        $i = 1;
-        while (Post::where('slug', $slug)->exists()) {
-            $slug = $base . '-' . $i++;
-        }
-        $post->slug = $slug;
-    });
-}
-public function getRouteKeyName(): string
-{
-    return 'slug';
-}
+    {
+        static::creating(function (Post $post) {
+            $base = Str::slug($post->title, '-', 'ru');
+            $slug = $base;
+            $i = 1;
+            while (Post::where('slug', $slug)->exists()) {
+                $slug = $base.'-'.$i++;
+            }
+            $post->slug = $slug;
+        });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

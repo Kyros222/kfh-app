@@ -1,58 +1,425 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# KFH App — Khodakov Fashion House
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Сайт ателье **Khodakov Fashion House**: витрина услуг, блог, формы заказов и админ-панель [MoonShine](https://moonshine-laravel.com) для управления контентом и заявками.
 
-## About Laravel
+**Стек:** Laravel 13 · PHP 8.3+ · MySQL 8 · Vite · Tailwind CSS 4 · MoonShine 2
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Содержание
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Требования](#требования)
+- [Локальная разработка](#локальная-разработка)
+- [Развёртывание через Docker (рекомендуется)](#развёртывание-через-docker-рекомендуется)
+- [Развёртывание без Docker](#развёртывание-без-docker)
+- [Админ-панель MoonShine](#админ-панель-moonshine)
+- [Проверка работоспособности](#проверка-работоспособности)
+- [Структура Docker-образа](#структура-docker-образа)
+- [Переменные окружения](#переменные-окружения)
+- [Решение проблем](#решение-проблем)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Требования
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Локальная разработка
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Компонент | Версия |
+|-----------|--------|
+| PHP | 8.3+ (расширения: pdo_mysql, mbstring, intl, gd, zip, exif) |
+| Composer | 2.x |
+| Node.js | 20.x |
+| MySQL | 8.0 |
 
-## Agentic Development
+### Production (Docker)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Компонент | Версия |
+|-----------|--------|
+| Docker | 24+ |
+| Docker Compose | v2 |
+
+---
+
+## Локальная разработка
 
 ```bash
-composer require laravel/boost --dev
+# 1. Клонировать репозиторий и перейти в каталог
+cd kfh-app
 
-php artisan boost:install
+# 2. Установить зависимости
+composer install
+npm install
+
+# 3. Настроить окружение
+cp .env.example .env
+php artisan key:generate
+
+# 4. Настроить БД в .env (DB_*), затем:
+php artisan migrate
+
+# 5. Симлинк для загрузок (изображения постов)
+php artisan storage:link
+
+# 6. Собрать фронтенд
+npm run build
+# или для hot-reload:
+npm run dev
+
+# 7. Запустить сервер (или composer run dev — сервер + очередь + vite)
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Сайт: `http://localhost:8000`  
+Health-check: `http://localhost:8000/up`
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Развёртывание через Docker (рекомендуется)
 
-## Code of Conduct
+Docker-образ включает **Nginx**, **PHP-FPM**, **Supervisor** (очередь `queue:work`) и собранные Vite-ассеты. База данных — отдельный контейнер MySQL.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Подготовка сервера
 
-## Security Vulnerabilities
+```bash
+# Установить Docker и Docker Compose (Ubuntu/Debian — пример)
+sudo apt update && sudo apt install -y docker.io docker-compose-v2
+sudo usermod -aG docker $USER
+# Перелогиниться, чтобы группа docker применилась
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Получить код на сервер
 
-## License
+```bash
+git clone <URL-репозитория> kfh-app
+cd kfh-app
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Создать файл `.env` для production
+
+```bash
+cp .env.example .env
+```
+
+Заполните **обязательные** переменные:
+
+```dotenv
+APP_NAME="Khodakov Fashion House"
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.ru
+
+# Сгенерировать ключ: php artisan key:generate --show
+APP_KEY=base64:...
+
+DB_DATABASE=kfh_app
+DB_USERNAME=kfh
+DB_PASSWORD=<надёжный-пароль>
+DB_ROOT_PASSWORD=<надёжный-root-пароль>
+
+SESSION_DRIVER=database
+CACHE_STORE=database
+QUEUE_CONNECTION=database
+FILESYSTEM_DISK=public
+LOG_CHANNEL=stderr
+
+# Автомиграции при старте контейнера (true — для первого деплоя; потом можно false)
+RUN_MIGRATIONS=true
+
+# Не публиковать MySQL наружу в production (оставьте пустым или закройте firewall)
+DB_PUBLISH_PORT=
+```
+
+> **Важно:** `APP_KEY` должен быть задан **до** первого запуска. Сгенерируйте локально:
+> ```bash
+> php artisan key:generate --show
+> ```
+> и вставьте значение в `.env`.
+
+### 4. Сборка и запуск
+
+```bash
+docker compose build --no-cache
+docker compose up -d
+```
+
+Приложение доступно на порту **8080**: `http://<IP-сервера>:8080`
+
+### 5. Создать администратора MoonShine
+
+После успешного старта контейнеров:
+
+```bash
+docker compose exec app php artisan moonshine:user
+```
+
+Следуйте подсказкам (имя, email, пароль). Админка: `https://your-domain.ru/admin`
+
+### 6. (Опционально) Заполнить демо-постами
+
+```bash
+docker compose exec app php artisan db:seed --class=PostSeeder
+```
+
+### 7. Reverse proxy и HTTPS (Nginx на хосте)
+
+Пример конфигурации для проксирования на контейнер:
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name your-domain.ru;
+
+    ssl_certificate     /etc/letsencrypt/live/your-domain.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/your-domain.ru/privkey.pem;
+
+    client_max_body_size 32m;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Получить сертификат Let's Encrypt:
+
+```bash
+sudo certbot --nginx -d your-domain.ru
+```
+
+Убедитесь, что `APP_URL` в `.env` совпадает с публичным HTTPS-адресом.
+
+### 8. Обновление приложения
+
+```bash
+git pull
+docker compose build
+docker compose up -d
+
+# Если RUN_MIGRATIONS=false, миграции вручную:
+docker compose exec app php artisan migrate --force
+```
+
+### 9. Полезные команды Docker
+
+```bash
+# Логи приложения
+docker compose logs -f app
+
+# Статус контейнеров
+docker compose ps
+
+# Остановка
+docker compose down
+
+# Остановка с удалением volumes (ОСТОРОЖНО — удалит БД!)
+docker compose down -v
+
+# Очистка кэша Laravel
+docker compose exec app php artisan optimize:clear
+docker compose exec app php artisan config:cache
+docker compose exec app php artisan route:cache
+docker compose exec app php artisan view:cache
+```
+
+---
+
+## Развёртывание без Docker
+
+Подходит для VPS с OSPanel, Laravel Forge, или ручной настройкой Nginx + PHP-FPM.
+
+```bash
+composer install --no-dev --optimize-autoloader
+npm ci && npm run build
+
+cp .env.example .env
+php artisan key:generate
+
+# Настроить DB_* в .env
+php artisan migrate --force
+php artisan storage:link
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+php artisan moonshine:user
+```
+
+### Nginx (document root)
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.ru;
+    root /var/www/kfh-app/public;
+    index index.php;
+
+    client_max_body_size 32m;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+
+### Supervisor — очередь
+
+```ini
+[program:kfh-queue]
+command=php /var/www/kfh-app/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=www-data
+```
+
+### Cron (планировщик Laravel)
+
+```cron
+* * * * * cd /var/www/kfh-app && php artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+## Админ-панель MoonShine
+
+| URL | `/admin` (настраивается через `MOONSHINE_ROUTE_PREFIX`) |
+|-----|--------------------------------------------------------|
+| Разделы | Посты, заказы (новые / в обработке / завершённые / отклонённые) |
+| Создание постов | Только через админку (публичная форма создания постов отключена) |
+
+Первый администратор:
+
+```bash
+php artisan moonshine:user
+# или в Docker:
+docker compose exec app php artisan moonshine:user
+```
+
+---
+
+## Проверка работоспособности
+
+```bash
+# Тесты
+php artisan test --compact
+
+# Health endpoint
+curl -f http://localhost:8080/up
+
+# Проверка маршрутов
+php artisan route:list
+```
+
+---
+
+## Структура Docker-образа
+
+```
+┌─────────────────────────────────────────┐
+│  Multi-stage build                      │
+├─────────────────────────────────────────┤
+│  Stage 1 (node:20)   → npm run build    │
+│  Stage 2 (composer)  → composer install │
+│  Stage 3 (php-fpm)   → runtime          │
+│    ├── Nginx :8080                      │
+│    ├── PHP-FPM                          │
+│    └── Supervisor → queue:work          │
+└─────────────────────────────────────────┘
+         │
+         ▼
+   MySQL 8 (контейнер db)
+   Volume: storage (загрузки, логи)
+   Volume: db (данные MySQL)
+```
+
+Файлы конфигурации:
+
+| Файл | Назначение |
+|------|------------|
+| `Dockerfile` | Сборка production-образа |
+| `docker-compose.yml` | Оркестрация app + db |
+| `docker/nginx.conf` | Nginx внутри контейнера |
+| `docker/supervisord.conf` | PHP-FPM, Nginx, queue worker |
+| `docker/entrypoint.sh` | key:generate, storage:link, migrate, cache |
+
+---
+
+## Переменные окружения
+
+| Переменная | Описание | Production |
+|------------|----------|------------|
+| `APP_KEY` | Ключ шифрования Laravel | **Обязательно** |
+| `APP_URL` | Публичный URL сайта | `https://domain.ru` |
+| `APP_DEBUG` | Режим отладки | `false` |
+| `DB_*` | Подключение к MySQL | См. docker-compose |
+| `FILESYSTEM_DISK` | Диск для загрузок | `public` |
+| `RUN_MIGRATIONS` | Автомиграции при старте | `true` / `false` |
+| `DB_PUBLISH_PORT` | Проброс порта MySQL | Пусто в production |
+| `MOONSHINE_ROUTE_PREFIX` | Префикс админки | `admin` |
+
+Полный список — в файле `.env.example`.
+
+---
+
+## Решение проблем
+
+### `Unable to locate file in Vite manifest`
+
+Ассеты не собраны. Пересоберите образ или локально:
+
+```bash
+npm run build
+# Docker:
+docker compose build --no-cache
+```
+
+### `500` / `No application encryption key`
+
+Задайте `APP_KEY` в `.env` и перезапустите:
+
+```bash
+php artisan key:generate --show   # скопировать в .env
+docker compose up -d --force-recreate
+```
+
+### Изображения постов не отображаются
+
+```bash
+php artisan storage:link
+# Docker:
+docker compose exec app php artisan storage:link
+```
+
+Убедитесь, что `FILESYSTEM_DISK=public` и volume `storage` подключён.
+
+### База данных недоступна при старте
+
+Контейнер `app` ждёт healthcheck MySQL (до ~2 мин). Проверьте:
+
+```bash
+docker compose logs db
+docker compose ps
+```
+
+### Очередь не обрабатывает задачи
+
+В Docker worker запускается через Supervisor. Проверка:
+
+```bash
+docker compose exec app supervisorctl status
+```
+
+---
+
+## Лицензия
+
+Проект построен на [Laravel](https://laravel.com) (MIT License).

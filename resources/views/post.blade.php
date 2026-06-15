@@ -1,5 +1,8 @@
-@vite(['resources/css/post.css'])
 @extends('layouts.main')
+
+@push('head-scripts')
+    @vite(['resources/css/post.css'])
+@endpush
 
 @section('content')
     <title>{{ $post->title }}</title>

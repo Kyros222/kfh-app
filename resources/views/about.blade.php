@@ -1,5 +1,9 @@
-@vite(['resources/css/about.css'])
 @extends('layouts.main')
+
+@push('head-scripts')
+    @vite(['resources/css/about.css'])
+@endpush
+
 @section('content')
     <title>О нас</title>
     <div class="main-logo">

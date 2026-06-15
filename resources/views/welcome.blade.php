@@ -1,5 +1,9 @@
-@vite(['resources/css/style.css', 'resources/js/contact.js'])
 @extends('layouts.main')
+
+@push('head-scripts')
+    @vite(['resources/js/contact.js'])
+@endpush
+
 @section('content')
     <title>Главная</title>
     <div class="main-block">

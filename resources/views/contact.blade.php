@@ -2,10 +2,10 @@
 
 @push('head-scripts')
     <script src="https://api-maps.yandex.ru/v3/?apikey=f3852bfc-32f4-48aa-a3df-f6a8a57c764c&lang=ru_RU"></script>
+    @vite(['resources/css/contact.css', 'resources/js/contact.js'])
 @endpush
 
 @section('content')
-    @vite(['resources/css/contact.css', 'resources/js/contact.js'])
     <title>Контакты</title>
     <section class="cont-main-block">
         <div class="main-header">

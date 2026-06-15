@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     image: kfh-app:latest
+    restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       APP_NAME: "KFH App"
       APP_ENV: production
@@ -35,6 +37,7 @@ services:
 
   db:
     image: mysql:8.0
+    restart: unless-stopped
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-kfh_app}
@@ -44,7 +47,7 @@ services:
     volumes:
       - db:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${DB_PUBLISH_PORT:-3306}:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       interval: 5s
