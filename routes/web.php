@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,9 +13,7 @@ Route::get('/about', function () {
 })->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/services', function () {
-    return view('services');
-})->name('services');
+Route::get('/services', [ServiceController::class, 'show'])->name('services');
 Route::post('/services/order', [ContactController::class, 'storeFromServices'])->name('services.order');
 Route::get('/privacy', function () {
     return view('privacy');

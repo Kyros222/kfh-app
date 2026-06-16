@@ -9,77 +9,61 @@
     <section class="cont-main-block">
         <div class="main-header">
             <img src="img/logo_about.png" alt="">
-            <div class="header">УСЛУГИ
-            </div>
+            <div class="header">УСЛУГИ</div>
+            <p class="services-intro">Выберите услугу — поможем с дизайном, производством и индивидуальными заказами</p>
         </div>
     </section>
-    <section "usl-block">
-        <div class="usl-cards">
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-            <div class="usl-card">
-                <img src="img/spec.png" alt="">
-                <div class="card-header">
-                    РАЗРАБОТКА <br> СО СПЕЦИАЛИСТОМ
-                </div>
-                <div class="card-text">Разработаем ваш собственный мерч <br>
-                    вместе</div>
-            </div>
-        </div>
-    </section>
-    <section class="price-block">
-        <div class="price-card">
-            <h2>РАЗРАБОТКА СО СПЕЦИАЛИСТОМ - от 4500 руб</h2>
-            <h2>НАНЕСЕНИЕ ПРИНТА - от 4300 руб</h2>
-            <h2>ОПТОВЫЕ ЗАКАЗЫ - ДОГОВОРНАЯ ЦЕНА</h2>
-            <h2>ПОДПИСЬ ОДЕЖДЫ - 300 руб</h2>
-            <h2>РАЗРАБОТКА ДИЗАЙНА - от 300 руб</h2>
-            <h2>ПАРНЫЕ ВЫШИВКИ - от 7000 руб</h2>
 
-            <hr>
+    <section class="pricetable-section">
+        <div class="pricetable-wrap">
+            <div class="pricetable-header">
+                <h2 class="pricetable-title">ПРАЙС-ЛИСТ</h2>
+                <p class="pricetable-hint">Нажмите на строку, чтобы сразу перейти к заказу</p>
+            </div>
 
-            <p class="note">
-                *ЕСЛИ У ВАС НЕТ ВЕКТОРНОЙ ВЕРСИИ ВАШЕГО ДИЗАЙНА/ПРИНТА,<br>
-                ТО ВЫ МОЖЕТЕ ПРИОБРЕСТИ ЕГО У НАС
-            </p>
+            <div class="pricetable">
+                <div class="pricetable__head">
+                    <div class="pricetable__col pricetable__col--num">#</div>
+                    <div class="pricetable__col pricetable__col--name">Услуга</div>
+                    <div class="pricetable__col pricetable__col--desc">Описание</div>
+                    <div class="pricetable__col pricetable__col--price">Цена</div>
+                    <div class="pricetable__col pricetable__col--action"></div>
+                </div>
+                @foreach ($services as $i => $service)
+                    <div
+                        class="pricetable__row"
+                        data-service-type="{{ $service->service_type }}"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Заказать: {{ $service->title }}"
+                    >
+                        <div class="pricetable__col pricetable__col--num">
+                            {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}
+                        </div>
+
+                        <div class="pricetable__col pricetable__col--name">
+                            {{ $service->title }}
+                        </div>
+
+                        <div class="pricetable__col pricetable__col--desc">
+                            {{ $service->text }}
+                        </div>
+
+                        <div class="pricetable__col pricetable__col--price">
+                            {{ $service->price }}
+                        </div>
+
+                        <div class="pricetable__col pricetable__col--action">
+                            <span class="pricetable__btn">Заказать</span>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="pricetable__footer">
+                    <span class="pricetable__note">
+                        💡 Нет векторной версии вашего принта? Мы подготовим макет — обратитесь за разработкой дизайна.
+                    </span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -140,12 +124,12 @@
                         class="form-input form-select"
                     >
                         <option value="">Выберите услугу</option>
-                        <option value="Разработка со специалистом" {{ old('service_type') == 'Разработка со специалистом' ? 'selected' : '' }}>Разработка со специалистом</option>
-                        <option value="Нанесение принта" {{ old('service_type') == 'Нанесение принта' ? 'selected' : '' }}>Нанесение принта</option>
-                        <option value="Оптовый заказ" {{ old('service_type') == 'Оптовый заказ' ? 'selected' : '' }}>Оптовый заказ</option>
-                        <option value="Подпись одежды" {{ old('service_type') == 'Подпись одежды' ? 'selected' : '' }}>Подпись одежды</option>
-                        <option value="Разработка дизайна" {{ old('service_type') == 'Разработка дизайна' ? 'selected' : '' }}>Разработка дизайна</option>
-                        <option value="Парные вышивки" {{ old('service_type') == 'Парные вышивки' ? 'selected' : '' }}>Парные вышивки</option>
+                        @foreach ($services as $service)
+                            <option
+                                value="{{ $service->service_type }}"
+                                {{ old('service_type') == $service->service_type ? 'selected' : '' }}
+                            >{{ $service->title }}</option>
+                        @endforeach
                         <option value="Индивидуальный заказ" {{ old('service_type') == 'Индивидуальный заказ' ? 'selected' : '' }}>Индивидуальный заказ</option>
                     </select>
                 </div>
@@ -183,11 +167,37 @@
             </div>
         </div>
     </section>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            var rows = document.querySelectorAll('.pricetable__row');
+            var select = document.getElementById('order-service');
+            var form   = document.getElementById('services-order-form');
+
             if (document.querySelector('.feedback-success') || document.querySelector('.form-error')) {
-                document.querySelector('.feedback-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+
+            rows.forEach(function (row) {
+                function activate() {
+                    rows.forEach(function (r) { r.classList.remove('pricetable__row--active'); });
+                    row.classList.add('pricetable__row--active');
+
+                    if (select) {
+                        select.value = row.dataset.serviceType;
+                    }
+
+                    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                row.addEventListener('click', activate);
+                row.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        activate();
+                    }
+                });
+            });
         });
     </script>
 @endsection

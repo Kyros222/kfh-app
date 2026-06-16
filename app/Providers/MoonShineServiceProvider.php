@@ -9,6 +9,7 @@ use App\MoonShine\Resources\OrderResource;
 use App\MoonShine\Resources\OrdersInProcessResource;
 use App\MoonShine\Resources\PostResource;
 use App\MoonShine\Resources\RejectedOrdersResource;
+use App\MoonShine\Resources\ServiceResource;
 use Closure;
 use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Menu\MenuElement;
@@ -29,6 +30,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
         return [
             new PostResource,
             new OrderResource,
+            new ServiceResource,
         ];
     }
 
@@ -47,6 +49,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     {
         return [
             MenuItem::make('Посты', new PostResource),
+            MenuItem::make('Услуги', new ServiceResource),
             MenuItem::make('Новые заказы', new OrderResource),
             MenuItem::make('В обработке', new OrdersInProcessResource),
             MenuItem::make('Завершённые', new CompletedOrdersResource),
